@@ -9,7 +9,7 @@ from preprocessing import read_and_concatenate_parquet_files, create_column_mapp
 
 
 class Dataset(torch.utils.data.Dataset):
-    def __init__(self, sessions, input_length = SEQUENCE_LENGTH, target_length = TARGET_LENGTH):
+    def __init__(self, sessions, input_length = sequence_length, target_length = target_length):
         self.sessions = sessions
         self.input_length = input_length
         self.target_length = target_length
