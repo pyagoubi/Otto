@@ -5,12 +5,12 @@ from pytorch_lightning.callbacks import ModelCheckpoint
 from pytorch_lightning.loggers import TensorBoardLogger
 from torch.utils.data import DataLoader
 
-from recommender.models import Recommender
-from recommender.preprocessing import read_and_concatenate_parquet_files, create_column_mapping, map_column, get_merged_sessions
+from model import Recommender
+from preprocessing import get_train_target,read_and_concatenate_parquet_files, create_column_mapping, map_column, get_merged_sessions
 
 
 class Dataset(torch.utils.data.Dataset):
-    def __init__(self, sessions, input_length = sequence_length, target_length = target_length):
+    def __init__(self, sessions, input_length, target_length):
         self.sessions = sessions
         self.input_length = input_length
         self.target_length = target_length
@@ -61,7 +61,8 @@ class Dataset(torch.utils.data.Dataset):
 
 
 def train(
-    data_path: str,
+    output_path: str,
+    input_file: str,
     log_dir: str = "recommender_logs",
     model_dir: str = "recommender_models",
     batch_size: int = 10,
@@ -71,16 +72,20 @@ def train(
     sequence_length = 100):
 
 
+    get_train_target(input_file, output_path)
+
     # Read and concatenate training data from first week
-    train_w1 = read_and_concatenate_parquet_files(f"{data_path}/train_w0_part*.parquet")
-    label_w1 = read_and_concatenate_parquet_files("{data_path}/label_w0_part*.parquet")
+    train_w1 = read_and_concatenate_parquet_files(f"{output_path}/train_w0_part*.parquet")
+    label_w1 = read_and_concatenate_parquet_files(f"{output_path}/label_w0_part*.parquet")
 
     # Read and concatenate training data from fourth week for validation
-    train_w4 = read_and_concatenate_parquet_files("{data_path}/train_w3_part*.parquet")
-    label_w4 = read_and_concatenate_parquet_files("{data_path}/label_w3_part*.parquet")
+    train_w4 = read_and_concatenate_parquet_files(f"{output_path}/train_w3_part*.parquet")
+    label_w4 = read_and_concatenate_parquet_files(f"{output_path}/label_w3_part*.parquet")
 
     # Create the mapping and inverse mapping for the 'aid' column
     mapping, inverse_mapping = create_column_mapping(train_w1, 'aid')
+
+    print(len(mapping))
 
     # Replace the values in the 'aid' column of the dataframe with their corresponding integer values
     train_w1 = map_column(train_w1, 'aid', mapping)
@@ -96,11 +101,15 @@ def train(
 
 
     train_data = Dataset(
-    sessions=train_w1
+    sessions=train_w1,
+    input_length = sequence_length,
+    target_length=target_length
 )
 
     val_data = Dataset(
-    sessions = train_w4
+    sessions = train_w4,
+    input_length = sequence_length,
+    target_length=target_length
     )
 
     print("len(train_data)", len(train_data))
@@ -120,7 +129,13 @@ def train(
         shuffle=False,
     )
 
-    model = Recommender()
+    model = Recommender(
+        out = len(mapping)+2,
+        channels=embedding_length,
+        dropout=0.2,
+        lr=1e-4,
+        word2vec = w2v
+    )
     trainer = pl.Trainer(
         max_epochs=epochs,
         gpus=1
@@ -144,11 +159,13 @@ if __name__ == "__main__":
     import argparse
 
     parser = argparse.ArgumentParser()
-    parser.add_argument("--data_path")
+    parser.add_argument("-i","--input_file")
+    parser.add_argument("-o","--output_path")
     parser.add_argument("--epochs", type=int, default=20)
     args = parser.parse_args()
 
     train(
-        data_path=args.data_path,
+        output_path=args.output_path,
+        input_file=args.input_file,
         epochs=args.epochs,
     )

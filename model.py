@@ -2,7 +2,7 @@ import pytorch_lightning as pl
 import torch
 import torch.nn as nn
 from torch.nn import Linear
-from torch.nn import functional as 
+from torch.nn import functional as F
 
                                  
 
@@ -31,11 +31,11 @@ def masked_accuracy(y_pred: torch.Tensor, y_true: torch.Tensor, mask: torch.Tens
 class Recommender(pl.LightningModule):
     def __init__(
         self,
-        out = len(mapping)+2,
-        channels=EMBEDDING_LENGTH,
-        dropout=0.2,
-        lr=1e-4,
-        word2vec = w2v
+        out,
+        channels,
+        dropout,
+        lr,
+        word2vec 
     ):
         super().__init__()
         
