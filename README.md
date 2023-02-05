@@ -1,4 +1,4 @@
-# recommender
+# BERT4Rec Model
 
 * Data Preprocessing: **[Link](https://github.com/pyagoubi/recommender/blob/main/preprocessing.py)**
 * Model **[Link](https://github.com/pyagoubi/recommender/blob/main/model.py)** 
