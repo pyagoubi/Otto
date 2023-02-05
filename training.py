@@ -5,7 +5,8 @@ from pytorch_lightning.callbacks import ModelCheckpoint
 from pytorch_lightning.loggers import TensorBoardLogger
 from torch.utils.data import DataLoader
 
-from preprocessing import read_and_concatenate_parquet_files, create_column_mapping, map_column, get_merged_sessions
+from recommender.models import Recommender
+from recommender.preprocessing import read_and_concatenate_parquet_files, create_column_mapping, map_column, get_merged_sessions
 
 
 class Dataset(torch.utils.data.Dataset):
