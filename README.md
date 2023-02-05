@@ -8,5 +8,5 @@ The goal is to predict e-commerce clicks, cart additions, and orders with a mult
 
 <b>Links  </b>
 * Data Preparation: **[Link](https://github.com/pyagoubi/Otto/blob/main/otto-prep-training-and-validation-sets.ipynb)**
-* BERT4Rec Model **[Link](https://github.com/pyagoubi/Otto/blob/main/bert4rec.ipynb)** (Notebook), for py-Files see [Link](https://github.com/pyagoubi/recommender)
+* BERT4Rec Model **[Link](https://github.com/pyagoubi/Otto/blob/main/bert4rec.ipynb)** (Notebook), for py-files see [Link](https://github.com/pyagoubi/recommender)
 * Background: **[Link](https://arxiv.org/abs/1904.06690)** 
