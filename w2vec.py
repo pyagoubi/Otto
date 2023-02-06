@@ -28,4 +28,4 @@ def train_w2v(input_file, output_path):
     sentences = sentences_df['sentence'].to_list()
 
     w2vec = Word2Vec(sentences=sentences, vector_size=32, min_count=1, workers=4)
-    w2vec.save(output_path)
+    w2vec.save(output_path+'\word2vec.model')

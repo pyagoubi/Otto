@@ -43,7 +43,7 @@ class Recommender(pl.LightningModule):
         self.dropout = dropout
         self.out = out
         
-        self.item_embeddings = w2v
+        self.item_embeddings = word2vec
 
         encoder_layer = nn.TransformerEncoderLayer(
             d_model=channels, nhead=4, dropout=self.dropout, batch_first = True

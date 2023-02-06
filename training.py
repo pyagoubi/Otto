@@ -1,6 +1,7 @@
 import pandas as pd
 import pytorch_lightning as pl
 import torch
+import gensim
 from pytorch_lightning.callbacks import ModelCheckpoint
 from pytorch_lightning.loggers import TensorBoardLogger
 from torch.utils.data import DataLoader
@@ -99,7 +100,7 @@ def train(
 
     # train Word2vec
     train_w2v(input_file, output_path)
-    w2v = gensim.models.Word2Vec.load(f"{output_path}/word2vec.model")
+    w2v = gensim.models.Word2Vec.load(f"{output_path}\word2vec.model")
 
 
     train_data = Dataset(
