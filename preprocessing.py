@@ -60,9 +60,9 @@ def read_and_concatenate_parquet_files(pattern):
         parquet_files[file] = pd.read_parquet(file)
     return pd.concat(parquet_files.values())
 
-def create_column_mapping(df, col_name):
+def create_column_mapping(df, col_name, input_file):
     # Read in the data from the parquet file
-    all_aid = pd.read_parquet('/kaggle/input/otto-full-optimized-memory-footprint/train.parquet')
+    all_aid = pd.read_parquet(input_file)
     
     # Get a sorted list of the unique values in the specified column
     aid_sorted = sorted(list(all_aid[col_name].unique()))

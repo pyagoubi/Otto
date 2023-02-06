@@ -6,6 +6,7 @@ from pytorch_lightning.loggers import TensorBoardLogger
 from torch.utils.data import DataLoader
 
 from model import Recommender
+from w2vec import train_w2v
 from preprocessing import get_train_target,read_and_concatenate_parquet_files, create_column_mapping, map_column, get_merged_sessions
 
 
@@ -83,7 +84,7 @@ def train(
     label_w4 = read_and_concatenate_parquet_files(f"{output_path}/label_w3_part*.parquet")
 
     # Create the mapping and inverse mapping for the 'aid' column
-    mapping, inverse_mapping = create_column_mapping(train_w1, 'aid')
+    mapping, inverse_mapping = create_column_mapping(train_w1, 'aid', input_file)
 
     print(len(mapping))
 
@@ -96,8 +97,9 @@ def train(
     train_w1 = get_merged_sessions(train_w1, label_w1)
     train_w4 = get_merged_sessions(train_w4, label_w4)
 
-    # Load pre-trained Word2Vec model.
-    w2v = gensim.models.Word2Vec.load("/kaggle/input/otto-w2vec/word2vec.model")
+    # train Word2vec
+    train_w2v(input_file, output_path)
+    w2v = gensim.models.Word2Vec.load(f"{output_path}/word2vec.model")
 
 
     train_data = Dataset(
