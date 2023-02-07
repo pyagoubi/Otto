@@ -4,7 +4,7 @@ Description [Link](https://www.kaggle.com/competitions/otto-recommender-system)
 
 ## Objective  
 
-The goal is to predict e-commerce clicks, cart additions, and orders with a multi-objective recommender system based on previous events in a user session.
+The goal is to predict e-commerce clicks, cart additions, and orders with a recommender system based on previous events in a user session. The transformer model predicts the next product IDs, that the customer interacts with.
 
 ## Files 
 * Dataset **[Link](https://www.kaggle.com/datasets/radek1/otto-full-optimized-memory-footprint)**
