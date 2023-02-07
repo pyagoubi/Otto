@@ -20,4 +20,4 @@ python training.py -i <dataset path> -o <output directory> --epochs <No of epoch
 ```
 ## Notebooks
 * Preprocessing **[Link](https://github.com/pyagoubi/Otto/blob/main/Notebooks/otto-prep-training-and-validation-sets.ipynb)**
-* Model + Training **[Link] (https://github.com/pyagoubi/Otto/blob/main/Notebooks/bert4rec.ipynb)**
+* Model + Training **[Link](https://github.com/pyagoubi/Otto/blob/main/Notebooks/bert4rec.ipynb)**
